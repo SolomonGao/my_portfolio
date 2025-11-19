@@ -73,24 +73,36 @@ const AppContent: React.FC = () => {
 
       {/* Control Guide (Visible in IDLE/FOCUSED) */}
       {viewState !== ViewState.SPLASH && viewState !== ViewState.SHUTTING_DOWN && (
-        <div className="absolute bottom-4 left-4 pointer-events-none select-none opacity-50 hover:opacity-100 transition-opacity z-20">
-          <div className="flex flex-col gap-1 text-[10px] text-white/80 tracking-widest font-light font-mono uppercase">
-            <div className="flex items-center gap-2">
-              <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center">A</span>
-              <span>Vol -</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center">D</span>
-              <span>Vol +</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center">Ctrl</span>
-              <span>RGB</span>
-            </div>
+        <div className="absolute bottom-4 left-4 pointer-events-none select-none opacity-70 hover:opacity-100 transition-opacity z-20">
+          <div className="flex flex-col gap-2 text-[10px] text-white/80 tracking-widest font-light font-mono uppercase">
+            {viewState === ViewState.IDLE && (
+              <>
+                <div className="flex items-center gap-2">
+                  <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center text-yellow-400 font-bold">A</span>
+                  <span>Vol +</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center text-yellow-400 font-bold">D</span>
+                  <span>Vol -</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center font-bold">Ctrl</span>
+                  <span>RGB Menu</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[40px] text-center font-bold">Space</span>
+                  <span>Toggle View</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="bg-white/10 border border-white/20 rounded px-1.5 py-0.5 min-w-[20px] text-center font-bold">🖱️</span>
+                  <span>Scroll Zoom</span>
+                </div>
+              </>
+            )}
             {viewState === ViewState.FOCUSED && (
-              <div className="flex items-center gap-2 text-blue-300">
-                <span className="bg-blue-500/20 border border-blue-500/50 rounded px-1.5 py-0.5 min-w-[20px] text-center">ESC</span>
-                <span>Exit PC</span>
+              <div className="flex items-center gap-2 text-blue-300 animate-pulse">
+                <span className="bg-blue-500/20 border border-blue-500/50 rounded px-1.5 py-0.5 min-w-[20px] text-center font-bold">ESC</span>
+                <span>Exit to Room</span>
               </div>
             )}
           </div>

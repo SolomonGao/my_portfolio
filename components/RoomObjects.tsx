@@ -4,6 +4,13 @@ import { useFrame, useThree, ThreeElements } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useMusic } from '../context/MusicContext';
 
+// Fix for R3F intrinsic elements in TypeScript
+declare global {
+  namespace JSX {
+    interface IntrinsicElements extends ThreeElements {}
+  }
+}
+
 // --- Materials ---
 // High-end metallic material similar to the volume knob
 const darkMetalMaterial = <meshStandardMaterial color="#1a1a1a" metalness={0.85} roughness={0.2} />;
@@ -61,33 +68,33 @@ export const RGBController: React.FC<RGBControllerProps> = ({ rgb, setRgb, isRai
     <group position={[-0.6, -0.05, 0.5]}>
       {/* Glowing Coaster/Pad */}
       <group position={[0, 0.002, 0]}>
-        {/* Outer Glow Ring */}
+        {/* Outer Glow Ring - Reduced segments */}
         <mesh position={[0, 0, 0]} rotation={[-Math.PI/2, 0, 0]}>
-           <ringGeometry args={[0.1, 0.105, 32]} />
+           <ringGeometry args={[0.1, 0.105, 24]} />
            <meshBasicMaterial color={displayColor} toneMapped={false} />
         </mesh>
-        {/* Dark Pad Base */}
+        {/* Dark Pad Base - Reduced segments */}
         <mesh position={[0, 0, 0]} receiveShadow>
-           <cylinderGeometry args={[0.1, 0.1, 0.004, 32]} />
+           <cylinderGeometry args={[0.1, 0.1, 0.004, 24]} />
            {padMaterial}
         </mesh>
       </group>
 
       {/* Controller Unit (Lifted slightly to sit on pad) */}
       <group position={[0, 0.005, 0]}>
-        {/* Metallic Base Stand */}
+        {/* Metallic Base Stand - Reduced segments */}
         <mesh position={[0, -0.01, 0]} receiveShadow castShadow>
-          <cylinderGeometry args={[0.08, 0.09, 0.02, 32]} />
+          <cylinderGeometry args={[0.08, 0.09, 0.02, 24]} />
           {darkMetalMaterial}
         </mesh>
         
-        {/* Glowing Ring Base */}
+        {/* Glowing Ring Base - Reduced segments */}
         <mesh position={[0, -0.005, 0]}>
-           <torusGeometry args={[0.082, 0.002, 16, 32]} />
+           <torusGeometry args={[0.082, 0.002, 8, 24]} />
            <meshBasicMaterial color={displayColor} toneMapped={false} opacity={0.8} transparent />
         </mesh>
 
-        {/* The "Knob" / Controller Button */}
+        {/* The "Knob" / Controller Button - Reduced segments */}
         <mesh 
           position={[0, 0.02, 0]} 
           onClick={(e) => { e.stopPropagation(); setIsOpen(!isOpen); }}
@@ -95,13 +102,13 @@ export const RGBController: React.FC<RGBControllerProps> = ({ rgb, setRgb, isRai
           onPointerOut={() => setHovered(false)}
           castShadow
         >
-          <cylinderGeometry args={[0.06, 0.06, 0.04, 32]} />
+          <cylinderGeometry args={[0.06, 0.06, 0.04, 24]} />
           {brushedMetalMaterial}
         </mesh>
 
-        {/* Top Glow Ring */}
+        {/* Top Glow Ring - Reduced segments */}
         <mesh position={[0, 0.041, 0]} rotation={[-Math.PI/2, 0, 0]}>
-          <ringGeometry args={[0.045, 0.05, 32]} />
+          <ringGeometry args={[0.045, 0.05, 24]} />
           <meshBasicMaterial color={displayColor} toneMapped={false} />
         </mesh>
 
@@ -207,7 +214,7 @@ export const Desk: React.FC = () => (
       <boxGeometry args={[4.5, 0.1, 2]} />
       {woodMaterial}
     </mesh>
-    {/* Legs */}
+    {/* Legs - Simple Boxes are very efficient */}
     <mesh position={[-2, 0.7, 0.8]} castShadow><boxGeometry args={[0.1, 1.4, 0.1]} />{darkMetalMaterial}</mesh>
     <mesh position={[2, 0.7, 0.8]} castShadow><boxGeometry args={[0.1, 1.4, 0.1]} />{darkMetalMaterial}</mesh>
     <mesh position={[-2, 0.7, -0.8]} castShadow><boxGeometry args={[0.1, 1.4, 0.1]} />{darkMetalMaterial}</mesh>
@@ -228,9 +235,9 @@ export const Monitor: React.FC<{ onClick: () => void, active: boolean }> = ({ on
         if (!active) onClick(); 
       }}
     >
-      {/* Metallic Stand */}
+      {/* Metallic Stand - Reduced segments */}
       <mesh position={[0, 0, 0]} castShadow>
-        <cylinderGeometry args={[0.05, 0.12, 0.5]} />
+        <cylinderGeometry args={[0.05, 0.12, 0.5, 16]} />
         {darkMetalMaterial}
       </mesh>
       <mesh position={[0, -0.24, 0.1]}>
@@ -277,9 +284,9 @@ const VolumeKnob: React.FC = () => {
 
   return (
     <group position={[0, -0.22, 0.152]}>
-      {/* Glowing Back Ring */}
+      {/* Glowing Back Ring - Reduced segments */}
       <mesh position={[0, 0, -0.002]}>
-        <ringGeometry args={[0.035, 0.04, 32]} />
+        <ringGeometry args={[0.035, 0.04, 24]} />
         <meshBasicMaterial 
           color="#0ea5e9" 
           opacity={0.2 + (volume * 0.8)} 
@@ -289,10 +296,10 @@ const VolumeKnob: React.FC = () => {
         />
       </mesh>
 
-      {/* Metallic Knob Body */}
+      {/* Metallic Knob Body - Reduced segments */}
       <group rotation={[0, 0, rotationZ]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
-          <cylinderGeometry args={[0.032, 0.032, 0.02, 32]} />
+          <cylinderGeometry args={[0.032, 0.032, 0.02, 24]} />
           {silverAccent}
         </mesh>
         {/* Indicator Line */}
@@ -322,23 +329,23 @@ export const Speakers: React.FC = () => (
         <boxGeometry args={[0.3, 0.6, 0.3]} />
         {darkMetalMaterial}
       </mesh>
-      {/* Metallic Trim around Drivers */}
+      {/* Metallic Trim around Drivers - Reduced segments */}
       <mesh position={[0, 0.12, 0.151]}>
-        <ringGeometry args={[0.08, 0.09, 32]} />
+        <ringGeometry args={[0.08, 0.09, 24]} />
         {silverAccent}
       </mesh>
       <mesh position={[0, -0.08, 0.151]}>
-        <ringGeometry args={[0.08, 0.09, 32]} />
+        <ringGeometry args={[0.08, 0.09, 24]} />
         {silverAccent}
       </mesh>
       
-      {/* Drivers */}
+      {/* Drivers - Reduced segments */}
       <mesh position={[0, 0.12, 0.151]}>
-        <circleGeometry args={[0.08]} />
+        <circleGeometry args={[0.08, 24]} />
         <meshStandardMaterial color="#111" roughness={0.4} />
       </mesh>
       <mesh position={[0, -0.08, 0.151]}>
-        <circleGeometry args={[0.08]} />
+        <circleGeometry args={[0.08, 24]} />
         <meshStandardMaterial color="#111" roughness={0.4} />
       </mesh>
       <VolumeKnob />
@@ -351,19 +358,19 @@ export const Speakers: React.FC = () => (
         {darkMetalMaterial}
       </mesh>
       <mesh position={[0, 0.12, 0.151]}>
-        <ringGeometry args={[0.08, 0.09, 32]} />
+        <ringGeometry args={[0.08, 0.09, 24]} />
         {silverAccent}
       </mesh>
       <mesh position={[0, -0.08, 0.151]}>
-        <ringGeometry args={[0.08, 0.09, 32]} />
+        <ringGeometry args={[0.08, 0.09, 24]} />
         {silverAccent}
       </mesh>
       <mesh position={[0, 0.12, 0.151]}>
-        <circleGeometry args={[0.08]} />
+        <circleGeometry args={[0.08, 24]} />
         <meshStandardMaterial color="#111" roughness={0.4} />
       </mesh>
       <mesh position={[0, -0.08, 0.151]}>
-        <circleGeometry args={[0.08]} />
+        <circleGeometry args={[0.08, 24]} />
         <meshStandardMaterial color="#111" roughness={0.4} />
       </mesh>
     </group>
@@ -516,7 +523,8 @@ export const Mouse: React.FC<{ ledColor: string }> = ({ ledColor }) => {
     if (mouseRef.current) {
       const targetX = 0.8 + (state.pointer.x * 0.1);
       const targetZ = 0.45 - (state.pointer.y * 0.1);
-      mouseRef.current.position.lerp(new THREE.Vector3(targetX, -0.015, targetZ), 0.2); // Lifted slightly
+      // Fix: Target Y set to -0.05 to match desk surface level
+      mouseRef.current.position.lerp(new THREE.Vector3(targetX, -0.05, targetZ), 0.2);
     }
   });
 
