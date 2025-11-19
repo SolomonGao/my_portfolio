@@ -1,10 +1,12 @@
+import React from 'react';
+
 export enum ViewState {
   IDLE = 'IDLE',
   FOCUSED = 'FOCUSED',
   SHUTTING_DOWN = 'SHUTTING_DOWN'
 }
 
-export type AppID = 'RESUME' | 'PROJECTS' | 'SETTINGS' | 'GYM' | 'LIBRARY' | 'HEAT';
+export type AppID = 'RESUME' | 'PROJECTS' | 'SETTINGS' | 'GYM' | 'LIBRARY' | 'HEAT' | 'MUSIC';
 
 export interface Project {
   id: number;

@@ -10,7 +10,9 @@ interface WindowFrameProps {
 const WindowFrame: React.FC<WindowFrameProps> = ({ title, onClose, children, className = "" }) => {
   return (
     <div 
-      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[85%] h-[75%] bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200/50 flex flex-col overflow-hidden animate-scaleIn ${className}`}
+      className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+        w-[95%] h-[85%] md:w-[80%] md:h-[75%] lg:w-[70%] lg:h-[70%]
+        bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-gray-200/50 flex flex-col overflow-hidden animate-scaleIn ${className}`}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Window Header */}
