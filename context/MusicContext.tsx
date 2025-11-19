@@ -11,6 +11,8 @@ export interface Track {
 interface MusicContextType {
   isPlaying: boolean;
   togglePlay: () => void;
+  play: () => void;
+  pause: () => void;
   volume: number;
   setVolume: React.Dispatch<React.SetStateAction<number>>;
   currentTrack: Track | null;
@@ -29,9 +31,9 @@ const MusicContext = createContext<MusicContextType | undefined>(undefined);
 const DEFAULT_TRACKS: Track[] = [
   {
     id: 'default-1',
-    title: 'Chill Lofi Beats',
-    artist: 'System Default',
-    url: 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3', // Royalty free placeholder
+    title: 'Me & You',
+    artist: 'Ice Paper',
+    url: 'https://cdn.pixabay.com/audio/2022/05/27/audio_1808fbf07a.mp3', 
     isLocal: false
   },
   {
@@ -46,7 +48,7 @@ const DEFAULT_TRACKS: Track[] = [
 export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const audioRef = useRef<HTMLAudioElement>(new Audio());
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(0.3); // Default volume 30%
   const [playlist, setPlaylist] = useState<Track[]>(DEFAULT_TRACKS);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(DEFAULT_TRACKS[0]);
   const [duration, setDuration] = useState(0);
@@ -56,6 +58,8 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   useEffect(() => {
     const audio = audioRef.current;
     audio.volume = volume;
+    // Enable loop for background music feel
+    audio.loop = false; 
     
     const handleEnded = () => nextTrack();
     const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
@@ -111,6 +115,8 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [isPlaying]);
 
   const togglePlay = () => setIsPlaying(!isPlaying);
+  const play = () => setIsPlaying(true);
+  const pause = () => setIsPlaying(false);
 
   const addTrack = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -153,7 +159,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   return (
     <MusicContext.Provider value={{
-      isPlaying, togglePlay, volume, setVolume, currentTrack, playlist,
+      isPlaying, togglePlay, play, pause, volume, setVolume, currentTrack, playlist,
       addTrack, playTrack, nextTrack, prevTrack, duration, currentTime, seek
     }}>
       {children}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 export enum ViewState {
+  SPLASH = 'SPLASH',
   IDLE = 'IDLE',
   FOCUSED = 'FOCUSED',
   SHUTTING_DOWN = 'SHUTTING_DOWN'

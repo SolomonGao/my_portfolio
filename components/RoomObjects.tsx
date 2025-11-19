@@ -4,34 +4,6 @@ import { useFrame, useThree, ThreeElements } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useMusic } from '../context/MusicContext';
 
-// Augment the JSX namespace to include R3F elements
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      group: any;
-      mesh: any;
-      meshStandardMaterial: any;
-      meshBasicMaterial: any;
-      boxGeometry: any;
-      planeGeometry: any;
-      cylinderGeometry: any;
-      ringGeometry: any;
-      circleGeometry: any;
-      torusGeometry: any;
-      ambientLight: any;
-      directionalLight: any;
-      pointLight: any;
-    }
-  }
-}
-
-// Augment the JSX namespace to include R3F elements
-declare global {
-  namespace JSX {
-    interface IntrinsicElements extends ThreeElements {}
-  }
-}
-
 // --- Materials ---
 // High-end metallic material similar to the volume knob
 const darkMetalMaterial = <meshStandardMaterial color="#1a1a1a" metalness={0.85} roughness={0.2} />;
